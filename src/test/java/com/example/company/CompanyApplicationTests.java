@@ -15,6 +15,7 @@ import com.example.company.model.Regions;
 import com.example.company.repository.CountriesRepository;
 import com.example.company.repository.DepartmentsRepository;
 import com.example.company.repository.EmployeesRepository;
+import com.example.company.repository.LocationsRepository;
 import com.example.company.repository.RegionsRepository;
 
 @SpringBootTest
@@ -30,6 +31,9 @@ class CompanyApplicationTests {
 
 	@Autowired
 	CountriesRepository countriesRepository;
+
+	@Autowired
+	LocationsRepository locationsRepository;
 
 	// 1. 사원번호가 140인 사원의 성과 이름, 근무부서가 위치한 나라명 확인
 	// → ('Patel', 'Joshua', 'Shipping', 'United States of America')
@@ -74,6 +78,11 @@ class CompanyApplicationTests {
 	// → Administration 1 / Purchasing 6 / Executive 3 / … / Payroll 0
 	@Test
 	void 조회4() {
+		Locations l = locationsRepository.findByStateProvince("washington");
+		List<Departments> d = departmentsRepository.findByLocations(l);
+		for(Departments dp : d) {
+			System.out.println(dp.getDepartmentName());
+		}
 	}
 
 }
